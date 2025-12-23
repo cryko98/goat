@@ -179,6 +179,9 @@ const App: React.FC = () => {
         </div>
       </section>
 
+      {/* Meme Generator Section - Now after About Section */}
+      <MemeGenerator />
+
       {/* How to Buy Section */}
       <section id="buy" className="py-32 px-6 bg-[#b7983b] text-white relative z-10">
         <div className="max-w-6xl mx-auto">
@@ -233,9 +236,6 @@ const App: React.FC = () => {
           </div>
         </div>
       </section>
-
-      {/* Meme Generator Section */}
-      <MemeGenerator />
 
       {/* Chart Section */}
       <section id="chart" className="py-32 px-6 bg-white text-[#b7983b] relative z-10">

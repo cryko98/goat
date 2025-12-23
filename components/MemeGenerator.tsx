@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { generateGoatMeme, RANDOM_PROMPTS } from '../services/gemini';
 import { MemeStyle } from '../types';
-import { Sparkles, Image as ImageIcon, Loader2, Shuffle } from 'lucide-react';
+import { Sparkles, Image as ImageIcon, Loader2, Shuffle, Meh } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const MemeGenerator: React.FC = () => {
@@ -23,7 +23,7 @@ const MemeGenerator: React.FC = () => {
       setResult(url);
     } catch (err: any) {
       console.error(err);
-      setError("Failed to generate meme. Make sure you have a valid Gemini API key.");
+      setError("The AI is unimpressed with your request. Or the API key is missing. Probably both.");
     } finally {
       setLoading(false);
     }
@@ -38,17 +38,18 @@ const MemeGenerator: React.FC = () => {
   return (
     <section id="generator" className="py-32 px-6 bg-[#a38734] relative z-10 overflow-hidden">
       <div className="max-w-5xl mx-auto text-center">
-        <h2 className="text-6xl md:text-8xl font-meme mb-12 text-white text-outline">
-          GOAT MEME LAB 🧪
+        <h2 className="text-6xl md:text-8xl font-meme mb-4 text-white text-outline">
+          MEME LAB
         </h2>
+        <p className="text-xl font-medium text-white/70 mb-12 italic">"Try to impress the Goat. Most fail."</p>
         
         <div className="bg-white/10 backdrop-blur-xl p-8 md:p-12 rounded-[3rem] border border-white/30 shadow-2xl">
           <div className="mb-10 space-y-6">
             <textarea
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              placeholder="What should the goat do? (e.g., 'goat flying a plane')"
-              className="w-full p-6 rounded-2xl bg-white/10 border border-white/30 text-white text-xl placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white min-h-[120px]"
+              placeholder="Tell the Goat what to do. Make it mid, he's used to it."
+              className="w-full p-6 rounded-2xl bg-white/10 border border-white/30 text-white text-xl placeholder-white/30 focus:outline-none focus:ring-2 focus:ring-white min-h-[120px]"
             />
             
             <div className="flex flex-wrap justify-center gap-4">
@@ -85,7 +86,7 @@ const MemeGenerator: React.FC = () => {
             </button>
           </div>
 
-          <div className="mt-12 min-h-[400px] flex items-center justify-center bg-black/5 rounded-[2rem] p-4">
+          <div className="mt-12 min-h-[400px] flex items-center justify-center bg-black/5 rounded-[2rem] p-4 border-2 border-dashed border-white/10">
             <AnimatePresence mode="wait">
               {loading && (
                 <motion.div 
@@ -94,8 +95,8 @@ const MemeGenerator: React.FC = () => {
                   exit={{ opacity: 0 }}
                   className="text-3xl font-meme text-white flex flex-col items-center gap-4"
                 >
-                  <Loader2 size={80} className="animate-spin" />
-                  <span>COOKING...</span>
+                  <Loader2 size={80} className="animate-spin text-white/50" />
+                  <span>THE GOAT IS CONSIDERING IT...</span>
                 </motion.div>
               )}
               
@@ -110,13 +111,16 @@ const MemeGenerator: React.FC = () => {
                     alt="AI Generated" 
                     className="w-full rounded-2xl shadow-2xl border-4 border-white/50"
                   />
+                  <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm text-[#b7983b] p-2 rounded-full shadow-lg">
+                    <Meh size={24} />
+                  </div>
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all rounded-2xl">
                     <a 
                       href={result} 
                       download="goat-meme.png" 
                       className="bg-white text-[#b7983b] px-8 py-4 rounded-full font-meme text-2xl shadow-xl"
                     >
-                      SAVE MEME
+                      DOWNLOAD
                     </a>
                   </div>
                 </motion.div>
@@ -125,12 +129,12 @@ const MemeGenerator: React.FC = () => {
               {!loading && !result && !error && (
                 <div className="text-white/20 flex flex-col items-center gap-4">
                   <ImageIcon size={100} />
-                  <p className="text-2xl font-meme">YOUR CREATION AWAITS</p>
+                  <p className="text-2xl font-meme uppercase tracking-widest">Awaiting your mid prompt</p>
                 </div>
               )}
 
               {error && (
-                <div className="text-red-200 font-bold p-8 text-xl">
+                <div className="text-red-200 font-bold p-8 text-xl max-w-md">
                   {error}
                 </div>
               )}
