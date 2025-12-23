@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { generateGoatMeme, RANDOM_PROMPTS } from '../services/gemini';
 import { MemeStyle } from '../types';
-import { Sparkles, Image as ImageIcon, Loader2, Shuffle, Meh } from 'lucide-react';
+import { Sparkles, Image as ImageIcon, Loader2, Shuffle, Meh, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const MemeGenerator: React.FC = () => {
@@ -22,8 +22,16 @@ const MemeGenerator: React.FC = () => {
       const url = await generateGoatMeme(finalPrompt, style);
       setResult(url);
     } catch (err: any) {
-      console.error(err);
-      setError("The AI is unimpressed with your request. Or the API key is missing. Probably both.");
+      console.error("Detailed error from Gemini:", err);
+      // Ha 403 vagy 401, az valószínűleg API kulcs hiba
+      const errorMsg = err.message || "";
+      if (errorMsg.includes("403") || errorMsg.includes("401") || errorMsg.includes("key")) {
+        setError("Invalid API Key. The Goat demands a valid offering in Vercel settings.");
+      } else if (errorMsg.includes("429")) {
+        setError("The Goat is tired of your requests. (Rate limited)");
+      } else {
+        setError("The AI is unimpressed with your request. Or the API key is missing. Check the console.");
+      }
     } finally {
       setLoading(false);
     }
@@ -134,8 +142,9 @@ const MemeGenerator: React.FC = () => {
               )}
 
               {error && (
-                <div className="text-red-200 font-bold p-8 text-xl max-w-md">
-                  {error}
+                <div className="text-red-200 font-bold p-10 text-xl max-w-md flex flex-col items-center gap-4">
+                  <AlertCircle size={64} />
+                  <p className="text-center">{error}</p>
                 </div>
               )}
             </AnimatePresence>

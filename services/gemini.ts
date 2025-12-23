@@ -3,8 +3,7 @@ import { GoogleGenAI } from "@google/genai";
 import { MemeStyle } from "../types";
 import { GOAT_LOGO_URL } from "../constants";
 
-// Strictly follow the SDK initialization guidelines.
-// process.env.API_KEY is bridged via vite.config.ts
+// Az API kulcsot a vite.config.ts injektálja be a build folyamat során.
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 async function imageUrlToBase64(url: string): Promise<string> {
@@ -25,20 +24,20 @@ export async function generateGoatMeme(prompt: string, style: MemeStyle): Promis
   const logoBase64 = await imageUrlToBase64(GOAT_LOGO_URL);
   
   let styleInstruction = "";
-  if (style === 'realistic') styleInstruction = "Ensure the image is photorealistic, cinematic, and gritty.";
-  if (style === 'cartoon') styleInstruction = "Ensure the image is in a vibrant, high-quality 2D cartoon style with bold colors.";
-  if (style === 'gta') styleInstruction = "Ensure the image is in the iconic Grand Theft Auto loading screen art style.";
+  if (style === 'realistic') styleInstruction = "Photorealistic, high-detail cinematic shot.";
+  if (style === 'cartoon') styleInstruction = "Vibrant 2D cartoon illustration, thick lines.";
+  if (style === 'gta') styleInstruction = "Grand Theft Auto V art style, cell shaded, iconic loading screen look.";
 
-  // Adding the "Unimpressed" personality instruction to the prompt
   const finalPrompt = `
-    Using the provided image as the reference for the goat character, generate an image for: ${prompt}.
-    The goat MUST look slightly unimpressed, bored, or smugly superior (Gork-style personality).
+    Using the attached image as the reference for the goat character, create a new image for this scene: ${prompt}.
+    The goat character from the logo must be the main subject. 
+    The goat should look unimpressed, smug, and superior. 
     ${styleInstruction}
-    If the prompt mentions 'goat', always use the character from the reference image.
   `;
 
+  // Fontos: A képgeneráláshoz a gemini-2.5-flash-image modellt kell használni!
   const response = await ai.models.generateContent({
-    model: 'gemini-3-flash-preview',
+    model: 'gemini-2.5-flash-image',
     contents: {
       parts: [
         {
@@ -60,24 +59,31 @@ export async function generateGoatMeme(prompt: string, style: MemeStyle): Promis
   });
 
   let imageUrl = "";
-  for (const part of response.candidates[0].content.parts) {
-    if (part.inlineData) {
-      imageUrl = `data:image/png;base64,${part.inlineData.data}`;
-      break;
+  // Végigmegyünk a válasz részein, hogy megtaláljuk az inlineData-t (képet)
+  if (response.candidates?.[0]?.content?.parts) {
+    for (const part of response.candidates[0].content.parts) {
+      if (part.inlineData) {
+        imageUrl = `data:image/png;base64,${part.inlineData.data}`;
+        break;
+      }
     }
   }
 
-  if (!imageUrl) throw new Error("The AI was too bored to generate an image. Try again.");
+  if (!imageUrl) {
+    console.error("No image data in response:", response);
+    throw new Error("The goat refused to be drawn. (No image part in response)");
+  }
+  
   return imageUrl;
 }
 
 export const RANDOM_PROMPTS = [
-  "goat watching human charts and sighing",
-  "goat sitting on a pile of gold looking bored",
-  "goat as a billionaire who doesn't care about your portfolio",
-  "goat reading the newspaper in a limousine",
-  "goat at a fancy dinner party judging everyone's fashion",
-  "goat wearing a tuxedo in a penthouse suite",
-  "goat as the CEO of Earth, taking a nap",
-  "goat surfing on a sea of dogecoins with a straight face"
+  "goat watching dogecoin charts and laughing",
+  "goat sitting on a throne of golden hay looking bored",
+  "goat as a wall street trader with multiple monitors",
+  "goat in a spacesuit floating near the moon",
+  "goat at a high-stakes poker table with sunglasses",
+  "goat as a rockstar on stage with a guitar",
+  "goat in a tuxedo on a private jet",
+  "goat coding at a laptop with 'Solana' stickers"
 ];
