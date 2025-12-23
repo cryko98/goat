@@ -3,7 +3,10 @@ import { GoogleGenAI } from "@google/genai";
 import { MemeStyle } from "../types";
 import { GOAT_LOGO_URL } from "../constants";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || "" });
+// Biztonságos inicializálás: ellenőrizzük a process meglétét
+const ai = new GoogleGenAI({ 
+  apiKey: (typeof process !== 'undefined' ? process.env.API_KEY : '') || "" 
+});
 
 async function imageUrlToBase64(url: string): Promise<string> {
   const response = await fetch(url);
