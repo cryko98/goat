@@ -44,7 +44,7 @@ const MemeGenerator: React.FC = () => {
   };
 
   return (
-    <section id="generator" className="py-32 px-6 bg-[#a38734] relative z-10 overflow-hidden">
+    <section id="generator" className="py-32 px-6 bg-[#33691e] relative z-10 overflow-hidden">
       <div className="max-w-5xl mx-auto text-center">
         <h2 className="text-6xl md:text-8xl font-meme mb-4 text-white text-outline">
           MEME LAB
@@ -66,7 +66,7 @@ const MemeGenerator: React.FC = () => {
                   key={s}
                   onClick={() => setStyle(s)}
                   className={`px-8 py-3 rounded-full font-meme text-2xl transition-all ${
-                    style === s ? 'bg-white text-[#b7983b] scale-110 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
+                    style === s ? 'bg-white text-[#558b2f] scale-110 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'
                   }`}
                 >
                   {s.toUpperCase()}
@@ -79,7 +79,7 @@ const MemeGenerator: React.FC = () => {
             <button
               onClick={() => handleGenerate()}
               disabled={loading}
-              className="flex items-center justify-center gap-3 bg-white text-[#b7983b] px-10 py-5 rounded-full font-meme text-3xl hover:scale-105 transition-all disabled:opacity-50 shadow-xl"
+              className="flex items-center justify-center gap-3 bg-white text-[#558b2f] px-10 py-5 rounded-full font-meme text-3xl hover:scale-105 transition-all disabled:opacity-50 shadow-xl"
             >
               {loading ? <Loader2 className="animate-spin" size={32} /> : <Sparkles size={32} />}
               GENERATE
@@ -119,14 +119,14 @@ const MemeGenerator: React.FC = () => {
                     alt="AI Generated" 
                     className="w-full rounded-2xl shadow-2xl border-4 border-white/50"
                   />
-                  <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm text-[#b7983b] p-2 rounded-full shadow-lg">
+                  <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm text-[#558b2f] p-2 rounded-full shadow-lg">
                     <Meh size={24} />
                   </div>
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all rounded-2xl">
                     <a 
                       href={result} 
                       download="goat-meme.png" 
-                      className="bg-white text-[#b7983b] px-8 py-4 rounded-full font-meme text-2xl shadow-xl"
+                      className="bg-white text-[#558b2f] px-8 py-4 rounded-full font-meme text-2xl shadow-xl"
                     >
                       DOWNLOAD
                     </a>
