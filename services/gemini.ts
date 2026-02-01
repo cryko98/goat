@@ -1,7 +1,6 @@
-
 import { GoogleGenAI } from "@google/genai";
 import { MemeStyle } from "../types";
-import { GOAT_LOGO_URL } from "../constants";
+import { SED_LOGO_URL } from "../constants";
 
 // Az API kulcsot a vite.config.ts injektálja be a build folyamat során.
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
@@ -21,7 +20,7 @@ async function imageUrlToBase64(url: string): Promise<string> {
 }
 
 export async function generateGoatMeme(prompt: string, style: MemeStyle): Promise<string> {
-  const logoBase64 = await imageUrlToBase64(GOAT_LOGO_URL);
+  const logoBase64 = await imageUrlToBase64(SED_LOGO_URL);
   
   let styleInstruction = "";
   if (style === 'realistic') styleInstruction = "Photorealistic, high-detail cinematic shot.";
@@ -29,9 +28,9 @@ export async function generateGoatMeme(prompt: string, style: MemeStyle): Promis
   if (style === 'gta') styleInstruction = "Grand Theft Auto V art style, cell shaded, iconic loading screen look.";
 
   const finalPrompt = `
-    Using the attached image as the reference for the goat character, create a new image for this scene: ${prompt}.
-    The goat character from the logo must be the main subject. 
-    The goat should look unimpressed, smug, and superior. 
+    Using the attached image as the reference for the character, create a new image for this scene: ${prompt}.
+    The character from the logo must be the main subject. 
+    The character should look unimpressed, smug, and superior. 
     ${styleInstruction}
   `;
 
@@ -71,19 +70,19 @@ export async function generateGoatMeme(prompt: string, style: MemeStyle): Promis
 
   if (!imageUrl) {
     console.error("No image data in response:", response);
-    throw new Error("The goat refused to be drawn. (No image part in response)");
+    throw new Error("The character refused to be drawn. (No image part in response)");
   }
   
   return imageUrl;
 }
 
 export const RANDOM_PROMPTS = [
-  "goat watching dogecoin charts and laughing",
-  "goat sitting on a throne of golden hay looking bored",
-  "goat as a wall street trader with multiple monitors",
-  "goat in a spacesuit floating near the moon",
-  "goat at a high-stakes poker table with sunglasses",
-  "goat as a rockstar on stage with a guitar",
-  "goat in a tuxedo on a private jet",
-  "goat coding at a laptop with 'Solana' stickers"
+  "Smoking Eagle Dog watching dogecoin charts and laughing",
+  "Smoking Eagle Dog sitting on a throne of golden hay looking bored",
+  "Smoking Eagle Dog as a wall street trader with multiple monitors",
+  "Smoking Eagle Dog in a spacesuit floating near the moon",
+  "Smoking Eagle Dog at a high-stakes poker table with sunglasses",
+  "Smoking Eagle Dog as a rockstar on stage with a guitar",
+  "Smoking Eagle Dog in a tuxedo on a private jet",
+  "Smoking Eagle Dog coding at a laptop with 'Solana' stickers"
 ];

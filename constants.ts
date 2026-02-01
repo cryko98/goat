@@ -1,7 +1,15 @@
 
-export const GOAT_CA = 'GNHW5JetZmW85vAU35KyoDcYoSd3sNWtx5RPMTDJpump';
-export const GOAT_LOGO_URL = 'https://wkkeyyrknmnynlcefugq.supabase.co/storage/v1/object/public/wasd/logo%20-%202025-12-23T140853.870.png';
-export const BG_GOAT_URL = 'https://wkkeyyrknmnynlcefugq.supabase.co/storage/v1/object/public/wasd/logo%20-%202025-12-23T141852.175.png';
-export const TWITTER_URL = 'https://x.com/goatcoinonsolx';
-export const PUMPFUN_URL = `https://pump.fun/coin/${GOAT_CA}`;
+export const SED_CA = 'HDRmd357ngWk13jGWWkBWxb4orE2ag7ZSgAg57oZpump';
+export const SED_LOGO_URL = 'https://pbs.twimg.com/media/HADnKpXbMAAxMUv?format=jpg&name=small';
+export const SED_TWITTER_URL = 'https://x.com/i/communities/2017866161434857757';
+export const PUMPFUN_URL = `https://pump.fun/coin/${SED_CA}`;
 export const THEME_COLOR = '#b7983b';
+
+export const MEME_IMAGES = [
+  'https://pbs.twimg.com/media/HAGmuD8aQAAHMr6?format=jpg&name=medium',
+  'https://pbs.twimg.com/media/HAGVq1IXoAAT5-s?format=jpg&name=medium',
+  'https://pbs.twimg.com/media/HAFciOMWMAA6xyF?format=jpg&name=medium',
+  'https://pbs.twimg.com/media/HAEw5Y-XUAAxHri?format=jpg&name=900x900',
+  'https://pbs.twimg.com/media/HAEkxriXcAA8PIh?format=jpg&name=medium',
+  'https://pbs.twimg.com/media/HAEPaQsbQAAa9nu?format=jpg&name=small'
+];
